@@ -2,10 +2,10 @@
 
 | Sensor  | protocol | spanning |
 | ------- | -------- | -------- |
-| scd30   |          |          |
-| sps30   |          |          |
-| mh-z19c |          |          |
-| dht-11  |          |          |
+| scd30   | UART/I²C |          |
+| sps30   | UART/I²C |          |
+| mh-z19c | UART     |          |
+| dht-11  | OneWire  |          |
 
 
 
