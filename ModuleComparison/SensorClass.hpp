@@ -48,7 +48,7 @@ public:
     sensorData getsensorData(int sensorID);
     // sensorid 1 = SPS30, 2 = MHZ19, 3 = SCD30 4 = PPD42
 
-    SoftwareSerial mySerial(xx, xx); // RX, TX
+
     
 private:
 
