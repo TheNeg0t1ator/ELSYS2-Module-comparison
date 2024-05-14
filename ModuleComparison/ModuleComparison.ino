@@ -1,6 +1,7 @@
-#include "../SensorClass.hpp"
+#include "SensorClass.hpp"
 
-SensorClass sensors();
+
+SensorClass sensors;
 
 void setup() {
   Serial.begin(9600); 
