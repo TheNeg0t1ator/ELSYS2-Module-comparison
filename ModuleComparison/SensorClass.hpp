@@ -21,8 +21,8 @@ SoftwareSerial mySerial(RX_pin, TX_pin);
 #define PPD42_ID 4
 
 //#define Use_SPS30
-//#define Use_MHZ19
-#define Use_SCD30
+#define Use_MHZ19
+//#define Use_SCD30
 //#define Use_PPD42
 
 
@@ -186,7 +186,7 @@ void SensorClass::initializeSCD30() {
     // while (1) { delay(10); }
     // }
     Wire.begin();
-    if (airSensor.begin() == false)
+    if (scd30.begin() == false)
   {
     Serial.println("Air sensor not detected. Please check wiring. Freezing...");
     while (1)
@@ -253,8 +253,9 @@ void SensorClass::processDataSPS30() {
 
 void SensorClass::processDataMHZ19() {
     // MHZ19 process data code
-    MHZ19_struct.co2 = myMHZ19.getCO2(); 
-    MHZ19_struct.temperature = myMHZ19.getTemperature();
+    //mySerial.print("test");
+    //MHZ19_struct.co2 = myMHZ19.getCO2(); 
+    //MHZ19_struct.temperature = myMHZ19.getTemperature();
 }
 
 void SensorClass::processDataSCD30() {
@@ -267,13 +268,12 @@ void SensorClass::processDataSCD30() {
     } else {
         Serial.println("SCD30 - Data not available");
     }*/
-    if scd30.dataAvailable() {
+    if (scd30.dataAvailable()) {
     SCD30_struct.temperature = scd30.getTemperature();
     SCD30_struct.co2 = scd30.getCO2();
     SCD30_struct.humidity = scd30.getHumidity();
-      }
-  else
-    Serial.println("Waiting for new data");
+      } else{
+    Serial.println("Waiting for new data");}
 }
 
 void SensorClass::processDataPPD42() {
