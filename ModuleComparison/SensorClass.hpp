@@ -5,8 +5,9 @@
 #include <sps30.h>
 #include "MHZ19.h"                                        
 #include "SparkFun_SCD30_Arduino_Library.h"
-#include <Adafruit_SCD30.h>
+//#include <Adafruit_SCD30.h>
 #include <SoftwareSerial.h>
+#include <Wire.h>
 
 const byte RX_pin = 2;	
 const byte TX_pin = 3;
@@ -85,7 +86,8 @@ private:
     char serial[SPS30_MAX_SERIAL_LEN];
     uint16_t data_ready;
 
-    Adafruit_SCD30 scd30;
+    //Adafruit_SCD30 scd30;
+    SCD30 scd30;
 
     MHZ19 myMHZ19; 
     
@@ -183,6 +185,14 @@ void SensorClass::initializeSCD30() {
     // Serial.println("Failed to find SCD30 chip");
     // while (1) { delay(10); }
     // }
+    Wire.begin();
+    if (airSensor.begin() == false)
+  {
+    Serial.println("Air sensor not detected. Please check wiring. Freezing...");
+    while (1)
+      ;
+  }
+
     
 }
 
@@ -218,12 +228,15 @@ void SensorClass::readDataMHZ19() {
 
 void SensorClass::readDataSCD30() {
     // SCD30 read data code
+    /*
     if (scd30.dataReady()) {
         if (!scd30.read()) {
             Serial.println("Error reading sensor data");
             return;
         }
-    }
+    }*/
+
+
 }
 
 void SensorClass::readDataPPD42() {
@@ -246,13 +259,21 @@ void SensorClass::processDataMHZ19() {
 
 void SensorClass::processDataSCD30() {
     // SCD30 process data code
+    /*
     if (scd30.dataReady()) {
         SCD30_struct.temperature = scd30.temperature;
         SCD30_struct.co2 = scd30.CO2;
         SCD30_struct.humidity = scd30.relative_humidity;
     } else {
         Serial.println("SCD30 - Data not available");
-    }
+    }*/
+    if scd30.dataAvailable() {
+    SCD30_struct.temperature = scd30.getTemperature();
+    SCD30_struct.co2 = scd30.getCO2();
+    SCD30_struct.humidity = scd30.getHumidity();
+      }
+  else
+    Serial.println("Waiting for new data");
 }
 
 void SensorClass::processDataPPD42() {
