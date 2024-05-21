@@ -13,7 +13,7 @@
 const byte RX_pin = 2;	
 const byte TX_pin = 3;
 */
-SoftwareSerial mySerial(RX_pin, TX_pin); 
+//SoftwareSerial mySerial(RX_pin, TX_pin); 
 #define PPD_PIN1 4
 
 
