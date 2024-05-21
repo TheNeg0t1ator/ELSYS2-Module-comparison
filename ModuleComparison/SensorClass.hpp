@@ -9,8 +9,10 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
 
+/*
 const byte RX_pin = 2;	
 const byte TX_pin = 3;
+*/
 SoftwareSerial mySerial(RX_pin, TX_pin); 
 #define PPD_PIN1 4
 
@@ -175,8 +177,11 @@ void SensorClass::initializeSPS30() {
 
 void SensorClass::initializeMHZ19() {
     // MHZ19 initialization code
-    myMHZ19.begin(mySerial);
+    
+    myMHZ19.begin(Serial);
     myMHZ19.autoCalibration();
+    
+
 }
 
 void SensorClass::initializeSCD30() {
@@ -254,8 +259,8 @@ void SensorClass::processDataSPS30() {
 void SensorClass::processDataMHZ19() {
     // MHZ19 process data code
     //mySerial.print("test");
-    //MHZ19_struct.co2 = myMHZ19.getCO2(); 
-    //MHZ19_struct.temperature = myMHZ19.getTemperature();
+    MHZ19_struct.co2 = myMHZ19.getCO2(); 
+    MHZ19_struct.temperature = myMHZ19.getTemperature();
 }
 
 void SensorClass::processDataSCD30() {
