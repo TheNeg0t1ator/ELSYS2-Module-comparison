@@ -179,10 +179,11 @@ void SensorClass::initializeMHZ19() {
 
 void SensorClass::initializeSCD30() {
     // SCD30 initialization code
-     if (!scd30.begin()) {
-    Serial.println("Failed to find SCD30 chip");
-    while (1) { delay(10); }
-    }
+    //  if (!scd30.begin(0x61, &Wire,SCD30_ID)) {
+    // Serial.println("Failed to find SCD30 chip");
+    // while (1) { delay(10); }
+    // }
+    
 }
 
 void SensorClass::initializePPD42() {
