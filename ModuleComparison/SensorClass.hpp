@@ -21,11 +21,11 @@ const byte TX_pin = 3;
 #define MHZ19_ID 2
 #define SCD30_ID 3
 #define PPD42_ID 4
-
+//sps is not working and deprecated
 //#define Use_SPS30
 #define Use_MHZ19
-//#define Use_SCD30
-//#define Use_PPD42
+#define Use_SCD30
+#define Use_PPD42
 
 
 typedef struct
@@ -44,6 +44,10 @@ typedef struct
     int co2 = (uint8_t)0;
     ParticleData particles;
 }sensorData;
+
+
+
+
 
 class SensorClass {
 public:
@@ -180,7 +184,9 @@ void SensorClass::initializeMHZ19() {
     
     myMHZ19.begin(Serial);
     myMHZ19.autoCalibration();
-    
+    while (myMHZ19.getCO2() <= 10 ) {
+        delay(250);
+    }
 
 }
 
@@ -328,6 +334,25 @@ void SensorClass::printData(sensorData input) {
         Serial.println(input.pressure);
     } 
 }
+
+
+sensorData getAveragedData(SensorClass* sensor) {
+    sensorData output;
+    
+    // Average CO2 and temperature from MHZ19 and SCD30
+    output.co2 = (sensor->getsensorData(MHZ19_ID).co2 + sensor->getsensorData(SCD30_ID).co2) / 2;
+    output.temperature = (sensor->getsensorData(MHZ19_ID).temperature + sensor->getsensorData(SCD30_ID).temperature) / 2;
+    
+    // Copy humidity from SCD30
+    output.humidity = sensor->getsensorData(SCD30_ID).humidity;
+    
+    // Copy particle data from PPD42
+    output.particles = sensor->getsensorData(PPD42_ID).particles;
+    
+    return output;
+}
+
+
 
 
 #endif // SENSORCLASS_HPP
